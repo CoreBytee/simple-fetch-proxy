@@ -1,0 +1,6 @@
+{
+    "name": "proxy-server",
+    "version": "1.0.0",
+    "description": "A proxy server for the application",
+    "main": "./src/index.ts"
+}

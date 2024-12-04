@@ -1,0 +1,19 @@
+{
+    "name": "proxy",
+    "module": "index.ts",
+    "peerDependencies": {
+        "typescript": "^5.0.0"
+    },
+    "scripts": {
+        "build": ""
+    },
+    "type": "module",
+    "dependencies": {
+        "@types/express": "^5.0.0",
+        "dotenv": "^16.4.7",
+        "express": "^4.21.1"
+    },
+    "workspaces": [
+        "packages/*"
+    ]
+}
