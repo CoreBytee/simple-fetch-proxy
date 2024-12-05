@@ -4,7 +4,11 @@ import express from "express";
 configDotenv()
 
 const app = express()
+
+const port = process.argv[3] || process.env.PROXY_PORT
 const secretToken = process.argv[2] || process.env.PROXY_SECRET
+
+console.log(`Starting on port ${port} with secret ${Array(secretToken?.length).fill("*").join("")}`)
 
 app.all(
     "/",

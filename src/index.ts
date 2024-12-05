@@ -14,9 +14,15 @@ export default function createFetch(
     const proxyUrl = `${options.ssl ? 'https' : 'http'}://${options.host}:${options.port}/`
 
     return async function (
-        url: string,
-        fetchOptions: RequestInit = {}
+        input: string | URL | globalThis.Request,
+        init?: RequestInit
     ): Promise<Response> {
+        const url = typeof input === 'string'
+            ? new URL(input)
+            : input instanceof URL
+                ? input
+                : new URL(input.url);
+
         const fetchUrl = new URL(proxyUrl)
         fetchUrl.searchParams.set('url', url)
         fetchUrl.searchParams.set("method", fetchOptions.method || "GET")
