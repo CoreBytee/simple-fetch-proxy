@@ -1,6 +1,0 @@
-{
-    "name": "proxy-client",
-    "version": "1.0.0",
-    "description": "A proxy client for the application",
-    "main": "./src/index.ts"
-}

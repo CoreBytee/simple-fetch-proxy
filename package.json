@@ -1,15 +1,28 @@
 {
-    "name": "proxy",
+    "name": "@corebyte/proxy",
+    "version": "1.0.0",
+    "private": false,
     "module": "index.ts",
-    "dependencies": {},
+    "type": "module",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "bin": "./dist/cli.js",
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE"
+    ],
+    "dependencies": {
+        "dotenv": "^16.4.7",
+        "express": "^4.21.1"
+    },
     "peerDependencies": {
-        "typescript": "^5.0.0"
+        "typescript": "^5.7.2"
     },
     "scripts": {
-        "build-server": ""
+        "build": "tsc -d --outdir ./dist"
     },
-    "type": "module",
-    "workspaces": [
-        "packages/*"
-    ]
+    "devDependencies": {
+        "@types/express": "^5.0.0"
+    }
 }

@@ -4,6 +4,9 @@ import express from "express";
 configDotenv()
 
 const app = express()
+const secretToken = process.argv[1] || process.env.PROXY_SECRET
+
+console.log(secretToken)
 
 app.all(
     "/",
