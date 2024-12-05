@@ -4,9 +4,7 @@ import express from "express";
 configDotenv()
 
 const app = express()
-const secretToken = process.argv[1] || process.env.PROXY_SECRET
-
-console.log(secretToken)
+const secretToken = process.argv[2] || process.env.PROXY_SECRET
 
 app.all(
     "/",
@@ -16,7 +14,7 @@ app.all(
         const headers: string = request.query.headers as string
         const method: string = request.method
 
-        if (secret !== process.env.PROXY_SECRET) {
+        if (secret !== secretToken) {
             response.status(401).send("Unauthorized")
         }
 
