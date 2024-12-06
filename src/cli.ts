@@ -1,3 +1,4 @@
+import bodyParser from "body-parser";
 import { configDotenv } from "dotenv";
 import express from "express";
 
@@ -9,6 +10,8 @@ const port = process.argv[3] || process.env.PROXY_PORT
 const secretToken = process.argv[2] || process.env.PROXY_SECRET
 
 console.log(`Starting on port ${port} with secret ${Array(secretToken?.length).fill("*").join("")}`)
+
+app.use(bodyParser.text({ type: '*/*' }));
 
 app.all(
     "/",
@@ -31,7 +34,7 @@ app.all(
             {
                 method,
                 headers: JSON.parse(headers),
-                body: request.body
+                body: typeof request.body == "string" ? request.body : undefined,
             }
         )
 
@@ -55,8 +58,8 @@ app.all(
 )
 
 app.listen(
-    process.env.PROXY_PORT,
+    port,
     () => {
-        console.log(`Server is running on http://localhost:${process.env.PROXY_PORT}`)
+        console.log(`Server is running on http://localhost:${port}`)
     }
 )

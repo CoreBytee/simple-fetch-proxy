@@ -23,14 +23,29 @@ export default function createFetch(
                 ? input
                 : new URL(input.url);
 
+        const method = init?.method || (input instanceof Request ? input.method : 'GET');
+
+        const headers = init?.headers
+            ? new Headers(init.headers)
+            : input instanceof Request
+                ? input.headers
+                : new Headers();
+
+        const body = init?.body || (input instanceof Request ? input.body : undefined);
+
         const fetchUrl = new URL(proxyUrl)
-        fetchUrl.searchParams.set('url', url)
-        fetchUrl.searchParams.set("method", fetchOptions.method || "GET")
-        fetchUrl.searchParams.set("headers", JSON.stringify(fetchOptions.headers || {}))
+        fetchUrl.searchParams.set('url', url.toString())
+        fetchUrl.searchParams.set("method", method || "GET")
+        fetchUrl.searchParams.set("headers", JSON.stringify(headers || {}))
         fetchUrl.searchParams.set("secret", options.secret)
 
         const response = await fetch(
-            fetchUrl.toString()
+            fetchUrl.toString(),
+            {
+                ...init,
+                method,
+                body
+            }
         )
 
         return response
