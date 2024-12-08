@@ -1,13 +1,14 @@
 import bodyParser from "body-parser";
 import { configDotenv } from "dotenv";
 import express from "express";
+import { Readable } from "stream";
 
-configDotenv()
+configDotenv({ path: process.argv[2] || ".env" })
 
 const app = express()
 
-const port = process.argv[3] || process.env.PROXY_PORT
-const secretToken = process.argv[2] || process.env.PROXY_SECRET
+const port = process.env.PROXY_PORT
+const secretToken = process.env.PROXY_SECRET
 
 console.log(`Starting on port ${port} with secret ${Array(secretToken?.length).fill("*").join("")}`)
 
@@ -47,12 +48,17 @@ app.all(
 
         response.status(fetchResponse.status)
         copyHeader("Content-Type")
-        copyHeader("Content-Length")
+        // copyHeader("Content-Length")
         copyHeader("Content-Disposition")
         copyHeader("Content-Language")
         copyHeader("Content-Range")
         copyHeader("accept-ranges")
-        response.send(await fetchResponse.text())
+        if (!fetchResponse.body) {
+            response.end()
+            return
+        }
+        const nodeStream = Readable.fromWeb(fetchResponse.body as any);
+        nodeStream.pipe(response);
 
     }
 )
