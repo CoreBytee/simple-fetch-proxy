@@ -1,6 +1,6 @@
 {
 	"name": "@corebyte/proxy",
-	"version": "1.3.9",
+	"version": "1.4.3",
 	"private": false,
 	"module": "index.ts",
 	"type": "module",
@@ -15,7 +15,7 @@
 		"typescript": "^5.7.2"
 	},
 	"scripts": {
-		"build": "tsc -d --outdir ./dist; bun build ./src/cli.ts --target=node --outfile=./dist/cli.js --banner '#!/usr/bin/env node'"
+		"prepublish": "tsc -d --outdir ./dist; bun build ./src/cli.ts --target=node --outfile=./dist/cli.js --banner '#!/usr/bin/env node'"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
