@@ -10,7 +10,10 @@ export default function createFetch(
 		port: 4000,
 		secret: process.env.PROXY_SECRET as string,
 	},
-): (input: string | URL | globalThis.Request, init?: RequestInit) => Promise<Response> {
+): (
+	input: string | URL | globalThis.Request,
+	init?: RequestInit,
+) => Promise<Response> {
 	const proxyUrl = `${options.ssl ? "https" : "http"}://${options.host}:${options.port}/`;
 
 	return async (
@@ -51,14 +54,19 @@ export default function createFetch(
 
 		const request = new Request(
 			url,
-			input instanceof Request ? input : undefined
+			input instanceof Request ? input : undefined,
 		);
 
-		return fetch(request, init ? {
-			...init,
-			headers
-		} : {
-			headers
-		});
+		return fetch(
+			request,
+			init
+				? {
+						...init,
+						headers,
+					}
+				: {
+						headers,
+					},
+		);
 	};
 }
