@@ -24,8 +24,10 @@ export default function createFetch(
 					? input
 					: new URL(input.url);
 
-		const method =
-			init?.method || (input instanceof Request ? input.method : "GET");
+		// Transform the url for use with our proxy.
+		url.searchParams.set("url", url.toString()); // keep original query param name
+		url.host = `${options.host}:${options.port}`;
+		url.protocol = options.ssl ? "https" : "http";
 
 		const headers = init?.headers
 			? new Headers(init.headers)
@@ -33,21 +35,26 @@ export default function createFetch(
 				? input.headers
 				: new Headers();
 
-		const body =
-			init?.body || (input instanceof Request ? input.body : undefined);
-
-		const fetchUrl = new URL(proxyUrl);
-		fetchUrl.searchParams.set("url", url.toString());
-		fetchUrl.searchParams.set("method", method || "GET");
-		fetchUrl.searchParams.set("headers", JSON.stringify(headers || {}));
-		fetchUrl.searchParams.set("secret", options.secret);
-
-		const response = await fetch(fetchUrl.toString(), {
-			...init,
-			method,
-			body,
+		// Serialize headers as query param (keep original param name)
+		const headerArray: [string, string][] = [];
+		headers.forEach((value, key) => {
+			headerArray.push([key, value]);
 		});
+		url.searchParams.set("headers", JSON.stringify(headerArray));
+		url.searchParams.set("secret", options.secret);
 
-		return response;
+		headers.delete("user-agent");
+
+		const request = new Request(
+			url,
+			input instanceof Request ? input : undefined
+		);
+
+		return fetch(request, init ? {
+			...init,
+			headers
+		} : {
+			headers
+		});
 	};
 }
