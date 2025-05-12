@@ -17,10 +17,16 @@ npm install @corebyte/proxy
 bun add @corebyte/proxy
 ```
 
+## Documentation
+The package is fully written in TypeScript so you can use the type definitions as documentation. And you can also look at the code here on GitHub.
+
 ## Usage
 
-Start the proxy server:
+Configure the server using env vars:
+- `PROXY_PORT`: Host where the server listens
+- `PROXY_SECRET`: Server secret
 
+Start the proxy server:
 ```bash
 npm run proxy [.env]
 # or
