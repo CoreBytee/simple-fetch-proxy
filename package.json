@@ -15,7 +15,7 @@
 		"typescript": "^5.7.2"
 	},
 	"scripts": {
-		"prepublish": "tsc -d --outdir ./dist; bun build ./src/cli.ts --target=node --outfile=./dist/cli.js --banner '#!/usr/bin/env node'"
+		"prepack": "bun run tsc -d --outdir ./dist; bun build ./src/cli.ts --target=node --outfile=./dist/cli.js --banner '#!/usr/bin/env node'"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
