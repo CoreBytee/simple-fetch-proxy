@@ -1,7 +1,7 @@
 import bodyParser from "body-parser";
 import { configDotenv } from "dotenv";
 import express from "express";
-import { Readable } from "stream";
+import { Readable } from "node:stream";
 
 configDotenv({ path: process.argv[2] || ".env" })
 
@@ -35,7 +35,7 @@ app.all(
             {
                 method,
                 headers: JSON.parse(headers),
-                body: typeof request.body == "string" ? request.body : undefined,
+                body: typeof request.body === "string" ? request.body : undefined,
             }
         )
 
@@ -57,6 +57,7 @@ app.all(
             response.end()
             return
         }
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
         const nodeStream = Readable.fromWeb(fetchResponse.body as any);
         nodeStream.pipe(response);
 
