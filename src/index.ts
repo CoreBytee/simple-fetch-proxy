@@ -29,6 +29,10 @@ export default function createFetch(
 		url.host = `${options.host}:${options.port}`;
 		url.protocol = options.ssl ? "https" : "http";
 
+		// Remove the path from the requested url
+		url.pathname = "/";
+		url.hash = "";
+
 		const headers = init?.headers
 			? new Headers(init.headers)
 			: input instanceof Request
