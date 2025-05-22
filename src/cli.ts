@@ -24,6 +24,7 @@ app.all("/", async (request, response) => {
 
 	if (secret !== secretToken) {
 		response.status(401).send("Unauthorized");
+		return
 	}
 
 	console.log(`Request: ${method} ${url} ${headers}`);
