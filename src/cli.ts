@@ -35,20 +35,13 @@ app.all("/", async (request, response) => {
 		body: typeof request.body === "string" ? request.body : undefined,
 	});
 
-	function copyHeader(headerName: string) {
-		const headerValue = fetchResponse.headers.get(headerName);
-		if (headerValue) {
-			response.setHeader(headerName, headerValue);
-		}
-	}
-
 	response.status(fetchResponse.status);
-	copyHeader("Content-Type");
-	// copyHeader("Content-Length")
-	copyHeader("Content-Disposition");
-	copyHeader("Content-Language");
-	copyHeader("Content-Range");
-	copyHeader("accept-ranges");
+	fetchResponse.headers.forEach((value, key) => {
+		if (key.toLowerCase() === "content-length") return;
+		if (key.toLowerCase() === "content-encoding") return;
+		response.setHeader(key, value);
+	});
+
 	if (!fetchResponse.body) {
 		response.end();
 		return;

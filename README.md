@@ -18,7 +18,7 @@ bun add @corebyte/proxy
 ```
 
 ## Documentation
-The package is fully written in TypeScript so you can use the type definitions as documentation. And you can also look at the code here on GitHub.
+The package is fully written in TypeScript so you can use the type definitions as documentation. And you can also look at the code here GitHub.
 
 ## Usage
 
