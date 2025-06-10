@@ -13,9 +13,7 @@ export default function createFetch(
 ): (
 	input: string | URL | globalThis.Request,
 	init?: RequestInit,
-) => Promise<Response> {
-	const proxyUrl = `${options.ssl ? "https" : "http"}://${options.host}:${options.port}/`;
-
+	) => Promise<Response> {
 	return async (
 		input: string | URL | globalThis.Request,
 		init?: RequestInit,
