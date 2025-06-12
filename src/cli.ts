@@ -39,6 +39,9 @@ app.all("/", async (request, response) => {
 	fetchResponse.headers.forEach((value, key) => {
 		if (key.toLowerCase() === "content-length") return;
 		if (key.toLowerCase() === "content-encoding") return;
+		if (key.toLowerCase() === "transfer-encoding") return;
+		if (key.toLowerCase() === "connection") return;
+
 		response.setHeader(key, value);
 	});
 
